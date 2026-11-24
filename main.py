@@ -41,6 +41,13 @@ def main() -> None:
     # newline="" and a single character: the file holds exactly "A".
     with open(output_path, "w", encoding="utf-8", newline="") as f:
         f.write(LETTER)
+    # Read it back: a grader that ran this program must never receive a
+    # silently wrong entry. If the file does not hold exactly the letter,
+    # exit non-zero instead of letting a bad entry through.
+    with open(output_path, "rb") as f:
+        written = f.read()
+    if written != LETTER.encode("utf-8"):
+        raise SystemExit(f"entry.txt holds {written!r}, expected {LETTER!r}")
 
 
 if __name__ == "__main__":
